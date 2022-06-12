@@ -19,4 +19,7 @@ struct TotalData: Codable {
     let deaths: Int
     let active: Int
     let fatality_rate: Double
+    
+    // Default Dummy Data ketika rapidapi.com Error, sehingga show data 0, 0, 0, 0.0 di Aplikasi
+    static let dummyData = TotalData(confirmed: 0, deaths: 0, active: 0, fatality_rate: 0.0)
 }
