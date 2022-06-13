@@ -9,16 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject private var viewModel = MainViewModel()
+    @StateObject private var viewModel = ContentViewModel()
     
     var body: some View {
         
         NavigationView {
             ZStack(alignment: .top) {
-                LinearGradient(colors: [
-                    Color(red: 2.47, green: 1.86, blue: 0.51),
-                    Color(red: 2.52, green: 0.74, blue: 0.26)
-                ], startPoint: .topLeading, endPoint: .bottomTrailing)
+                LinearGradient(gradient: Gradient(colors: [Color.orange, Color.purple]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.vertical)
                     .ignoresSafeArea()
                 
                 VStack(alignment: .leading) {
@@ -51,7 +49,7 @@ struct ContentView: View {
                     .listStyle(.plain)
                 }
             }
-            .navigationTitle("Data Statistik Covid-19")
+            .navigationTitle("Data Covid-19")
             .alert(item: $viewModel.alertItem, content: { alertItem in
                 Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
             })
@@ -68,8 +66,8 @@ struct ContentView: View {
                 }
                 .tint(.black)
             }
-            .accentColor(.primary)
         }
+        .accentColor(.primary)
         
 //            // MARK: Test Console (uncomment Test -> JSON GET DATA DI APIService)
 //            // Uncomment salah satu fungsi fetch di APIService

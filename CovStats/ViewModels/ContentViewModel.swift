@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // Fungsi Fetch Total Data dan Fetch All Countries
-final class MainViewModel: ObservableObject {
+final class ContentViewModel: ObservableObject {
     
     @Published var totalData = TotalData.dummyData  // Default Dummy Data dari Models TotalData
     @Published var allCountries: [Country] = []     // Default Country Empty Array

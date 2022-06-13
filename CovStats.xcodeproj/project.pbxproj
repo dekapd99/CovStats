@@ -25,7 +25,7 @@
 		ABACD081285710E700C9402B /* CountryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABACD080285710E700C9402B /* CountryDetailViewModel.swift */; };
 		ABCEC0F528571E9A007F573A /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEC0F428571E9A007F573A /* LocalFileManager.swift */; };
 		ABCEC0F7285727BA007F573A /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEC0F6285727BA007F573A /* AlertItem.swift */; };
-		ABF0CB072856454F00DCEECC /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF0CB062856454F00DCEECC /* MainViewModel.swift */; };
+		ABF0CB072856454F00DCEECC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF0CB062856454F00DCEECC /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +48,7 @@
 		ABACD080285710E700C9402B /* CountryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailViewModel.swift; sourceTree = "<group>"; };
 		ABCEC0F428571E9A007F573A /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		ABCEC0F6285727BA007F573A /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
-		ABF0CB062856454F00DCEECC /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		ABF0CB062856454F00DCEECC /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				ABACD080285710E700C9402B /* CountryDetailViewModel.swift */,
-				ABF0CB062856454F00DCEECC /* MainViewModel.swift */,
+				ABF0CB062856454F00DCEECC /* ContentViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 				ABCEC0F7285727BA007F573A /* AlertItem.swift in Sources */,
 				AB84CFF32855BC50001BFBE5 /* CovStatsAPI.swift in Sources */,
 				AB5C8D692854D87600202146 /* CovStatsApp.swift in Sources */,
-				ABF0CB072856454F00DCEECC /* MainViewModel.swift in Sources */,
+				ABF0CB072856454F00DCEECC /* ContentViewModel.swift in Sources */,
 				AB3F944A2856500E0015F1FB /* TotalDataView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

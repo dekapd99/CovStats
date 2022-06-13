@@ -15,10 +15,8 @@ struct ReportView: View {
     var body: some View {
         ZStack(alignment: .top) { // Z-Stack Wrapper
             // Gradient Color
-            LinearGradient(colors: [
-                Color(red: 2.47, green: 1.86, blue: 0.51),
-                Color(red: 2.52, green: 0.74, blue: 0.26)
-            ], startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: [Color.orange, Color.purple]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.vertical)
                 .ignoresSafeArea()
             
             VStack {
