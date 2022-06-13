@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct ContentView: View {
     
-    @ObservedObject private var viewModel = MainViewModel()
+    @StateObject private var viewModel = MainViewModel()
     
     var body: some View {
         
@@ -22,37 +22,53 @@ struct MainView: View {
                     .ignoresSafeArea()
                 
                 VStack(alignment: .leading) {
-                    Text("World Total")
+                    Text("Total Kasus di Dunia")
                         .font(.title2 .bold())
                         .padding(10)
                     
                     TotalDataView(totalData: viewModel.totalData)
                     
-                    Text("All Countries")
+                    if viewModel.isSearchVisible {
+                        SearchBarView(searchText: $viewModel.searchText)
+                    }
+                    
+                    Text("Pilih Negara")
                         .font(.title2 .bold())
                         .padding(10)
                     
                     List {
                         Section {
-                            ForEach(viewModel.allCountries, id: \.iso) { country in
-                                Text(country.name)
+                            ForEach(viewModel.allCountries.filter {
+                                viewModel.searchText.isEmpty ? true : $0.name.lowercased().contains(viewModel.searchText.lowercased())
+                            }, id: \.iso) { country in
                                 
+                                NavigationLink(destination: CountryDetailView(viewModel: CountryDetailViewModel(country: country))) {
+                                    Text(country.name)
+                                }
                             }
                         }
                     }
                     .listStyle(.plain)
                 }
             }
-            .navigationTitle("Statistics")
+            .navigationTitle("Data Statistik Covid-19")
+            .alert(item: $viewModel.alertItem, content: { alertItem in
+                Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+            })
             .toolbar {
                 Button {
-                    print("Show Search")
+                    // Toggle Search Bar
+                    viewModel.isSearchVisible.toggle()
+                    // Cek apakah search bar sedang sembunyi atau tidak?
+                    if !viewModel.isSearchVisible {
+                        viewModel.searchText = ""
+                    }
                 } label: {
                     Image(systemName: "magnifyingglass")
                 }
                 .tint(.black)
             }
-            .accentColor(.white)
+            .accentColor(.primary)
         }
         
 //            // MARK: Test Console (uncomment Test -> JSON GET DATA DI APIService)
@@ -76,6 +92,6 @@ struct MainView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        ContentView()
     }
 }

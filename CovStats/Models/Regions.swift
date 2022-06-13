@@ -7,8 +7,7 @@
 
 import Foundation
 
-// Data Declaration
-// Berisikan Data Object yang digunakan dari Endpoints Regions
+// Data Declaration: Endpoints Data Regions
 struct AllRegions: Codable {
     let data: [Country]
 }
@@ -17,4 +16,7 @@ struct AllRegions: Codable {
 struct Country: Codable {
     let iso: String
     let name: String
+    
+    // Default Dummy Data ketika rapidapi.com Error, sehingga show text N/A & Error di Aplikasi
+    static let dummyData = Country(iso: "N/A", name: "Error")
 }

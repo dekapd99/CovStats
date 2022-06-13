@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Card Data yang terintegrasi dengan Dark Mode
+// Default Card Wrapper untuk Masing-masing Data (TotalDataView)
 struct DataCardView: View {
     
     // Default value ketika tidak fetch apapun
@@ -15,9 +15,8 @@ struct DataCardView: View {
     var name: String = "Error"
     var color: Color = .primary
     
-    // Responsive Display / Layar
+    // Responsive Display / Layar dengan GeometryReader
     var body: some View {
-        
         GeometryReader { geomerty in
             VStack(spacing: 10) {
                 Text(self.number)
@@ -33,7 +32,6 @@ struct DataCardView: View {
             .background(Color("cardBackground"))
             .cornerRadius(10.0)
         }
-        
     }
 }
 

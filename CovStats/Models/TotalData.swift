@@ -7,8 +7,7 @@
 
 import Foundation
 
-// Data Declaration
-// Berisikan Data Object yang digunakan dari Endpoints Total Report
+// Data Declaration: Endpoints Data TotalData
 struct TotalDataObject: Codable {
     let data: TotalData
 }

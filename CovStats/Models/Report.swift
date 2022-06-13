@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Data Declaration: Endpoints Data Report
 struct AllReports: Codable {
     let data: [RegionReport]
 }
@@ -27,6 +28,9 @@ struct RegionReport: Codable, Identifiable {
     var formattedDate: String {
         date.formatted(date: .abbreviated, time: .omitted)
     }
+    
+    // Default Dummy Data ketika rapidapi.com Error, sehingga show data Terbaru, 0, 0, 0, 0.0, dan text N/A & Error di Aplikasi
+    static let dummyData = RegionReport(date: Date.now, confirmed: 0, deaths: 0, active: 0, fatality_rate: 0.0, region: RegionDetail(name: "N/A", province: "Province"))
 }
 
 // 2 Object yang digunakan dari object region

@@ -7,22 +7,21 @@
 
 import Foundation
 
-// API Communication: Fetch Data dari Endpoints (total, regions, provinces, dan Total Report), Decode JSON
+// API Service (Fetch Data Globally & Locally) dan Store & Save Countries Data Locally
 // https://rapidapi.com/axisbits-axisbits-default/api/covid-19-statistics/
-
-class APIService {
+final class CovStatsAPI {
     
-    static let shared = APIService() // instance -> agar APIService bisa digunakan di dalam project ini
+    static let shared = CovStatsAPI() // instance -> agar API Service bisa digunakan di project ini
     
-    private init() {} // Initialized -> agar tidak bisa initialize diluar API Class kecuali menggunakan shared diatas
+    private init() {} // Init -> hanya bisa init ketika menggunakan shared diatas
     
     // Code Snippets dari rapidapi.com -> Pisahkan Headers agar nantinya bisa dipake berulang
     private let headers = [
-        "X-RapidAPI-Key": "ca7bdbae87msh34b22a93b02f86cp1284cbjsn687c7adb1b1f", // Replace API Key dengan punyamu
+        "X-RapidAPI-Key": "copy & paste your api key here", // Replace API Key disini
         "X-RapidAPI-Host": "covid-19-statistics.p.rapidapi.com"
     ]
     
-    // base URL untuk Endpoint (biar nanti tinggal ammend aja)
+    // Base URL untuk Endpoint (biar nanti tinggal ammend aja)
     private let baseURLString = "https://covid-19-statistics.p.rapidapi.com"
     
     // MARK: Fungsi Fetch Total Data
@@ -30,9 +29,9 @@ class APIService {
     // Modifikasi Code Snippets dari rapidapi.com -> Kosongkan kolom Date pada Optional Parameter
     func fetchTotalData(completion: @escaping (Result<TotalData, Error>) -> Void) {
         
-        let totalURLString = baseURLString + "/reports/total" // base URL untuk Total Report
+        let totalURLString = baseURLString + "/reports/total" // Base URL untuk Total Report
         
-        let url = URL(string: totalURLString) // convert totalURLString menjadi string ke dalam bentuk URL
+        let url = URL(string: totalURLString) // Convert totalURLString menjadi string ke dalam bentuk URL
         
         // Cek apakah sukses convert totalURLString menjadi string ke dalam bentuk URL ?
         // Kalo gagal tampilkan Custom Error: CovidError.incorrectURL dan Stop Programnya
@@ -44,21 +43,20 @@ class APIService {
         // Swift Mutable Object
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
 
-        request.httpMethod = "GET" // http method
+        request.httpMethod = "GET" // https method
         request.allHTTPHeaderFields = headers // passing header dari atas
         
         let session = URLSession.shared // URL Session
 
-        // Data Task -> ketika kita request URL Session, ini akan mendapatkan 3 parameter yaitu data, response, dan error
+        // Request URL Session dengan 3 parameter yaitu data, response, dan error
         let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             // kalo error, callback Custom Error: CovidError.noDataReceived
             if error != nil {
                 completion(.failure(CovidError.noDataReceived))
             } else {
-                // JSONDecoder ->
-                let decoder = JSONDecoder()
+                let decoder = JSONDecoder() // Decode JSON file
                 
-                // Do & Catch -> Convert JSON data yang didapat dari API menjadi total data object
+                // Do & Catch -> Convert JSON data yang didapat dari API menjadi Swift Native Data Object untuk totalDataObject
                 do {
                     let totalDataObject = try decoder.decode(TotalDataObject.self, from: data!)
                     completion(.success(totalDataObject.data)) // return total data
@@ -74,7 +72,6 @@ class APIService {
 //                }
             }
         })
-
         dataTask.resume()
     }
     
@@ -83,9 +80,23 @@ class APIService {
     // Modifikasi Code Snippets dari rapidapi.com
     func fetchAllRegions(completion: @escaping (Result<[Country], Error>) -> Void) {
         
+        let decoder = JSONDecoder() // Decode JSON file
+        
+        // Cek kalo ada Lokal Data Country yang sudah Tersimpan sebelumnya
+        if let data = LocalFileManager.shared.fetchLocalCountries() {
+            // Do & Catch -> Convert JSON data yang didapat dari API menjadi total data object
+            do {
+                let allCountries = try decoder.decode(AllRegions.self, from: data)
+                completion(.success(allCountries.data)) // return total data
+            } catch let error {
+                completion(.failure(error))
+            }
+            return // exit fungsi ketika sudah fetch data lokal yang tersedia, kalo gak ada lanjut ke line code selanjutnya
+        }
+        
         let countriesURLString = baseURLString + "/regions" // base URL untuk Regions
         
-        let url = URL(string: countriesURLString) // convert countriesURLString menjadi string ke dalam bentuk URL
+        let url = URL(string: countriesURLString) // Convert countriesURLString menjadi string ke dalam bentuk URL
         
         // Cek apakah sukses convert totalURLString menjadi string ke dalam bentuk URL ?
         // Kalo gagal tampilkan Custom Error: CovidError.incorrectURL dan Stop Programnya
@@ -97,20 +108,21 @@ class APIService {
         // Swift Mutable Object
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
 
-        request.httpMethod = "GET" // http method
-        request.allHTTPHeaderFields = headers // passing header dari atas
+        request.httpMethod = "GET" // Http method
+        request.allHTTPHeaderFields = headers // Passing header dari atas
         
         let session = URLSession.shared // URL Session
 
-        // Data Task -> ketika kita request URL Session, ini akan mendapatkan 3 parameter yaitu data, response, dan error
+        // Request URL Session dengan 3 parameter yaitu data, response, dan error
         let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             // kalo error, callback Custom Error: CovidError.noDataReceived
             if error != nil {
                 completion(.failure(CovidError.noDataReceived))
             } else {
-                // JSONDecoder ->
-                let decoder = JSONDecoder()
-
+                // Save data secara lokal
+                LocalFileManager.shared.saveCountriesLocally(countryData: data)
+                
+                // Return fetchAllRegions() untuk pertama kali
                 // Do & Catch -> Convert JSON data yang didapat dari API menjadi total data object
                 do {
                     let allCountries = try decoder.decode(AllRegions.self, from: data!)
@@ -127,7 +139,6 @@ class APIService {
 //                }
             }
         })
-
         dataTask.resume()
     }
     
@@ -155,14 +166,13 @@ class APIService {
         
         let session = URLSession.shared // URL Session
 
-        // Data Task -> ketika kita request URL Session, ini akan mendapatkan 3 parameter yaitu data, response, dan error
+        // Request URL Session dengan 3 parameter yaitu data, response, dan error
         let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            // kalo error, callback Custom Error: CovidError.noDataReceived
+            // Kalo error, callback Custom Error: CovidError.noDataReceived
             if error != nil {
                 completion(.failure(CovidError.noDataReceived))
             } else {
-                // JSONDecoder ->
-                let decoder = JSONDecoder()
+                let decoder = JSONDecoder() // Decode JSON file
 
                 // Convert Date Format dari API (y-MM-dd) dengan Date Decoder menjadi Swift Native Date Object
                 let formatter = DateFormatter()

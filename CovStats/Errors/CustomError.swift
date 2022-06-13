@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Customization Error Provider
+// Error Provider (Customized): 2 Error Case untuk Incorrect URL dan No Data Received
 enum CovidError: Error {
     case incorrectURL, noDataReceived
 }
