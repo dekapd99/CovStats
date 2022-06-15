@@ -17,7 +17,7 @@ final class CovStatsAPI {
     
     // Code Snippets dari rapidapi.com -> Pisahkan Headers agar nantinya bisa dipake berulang
     private let headers = [
-        "X-RapidAPI-Key": "copy & paste your api key here", // Replace API Key disini
+        "X-RapidAPI-Key": "copy & paste your apikey here", // Replace API Key disini
         "X-RapidAPI-Host": "covid-19-statistics.p.rapidapi.com"
     ]
     
