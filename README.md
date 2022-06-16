@@ -1,8 +1,16 @@
 # CovStats
+<p align="center">
+  <a href="#" target="_blank"><img src="CovStats.png" width="200"></a>
+</p>
 
-<!-- ABOUT THE PROJECT -->
-## About
 CovStats adalah aplikasi iOS Data Statistik Internasional Covid-19 yang datanya didapatkan dari [rapidapi.com](https://rapidapi.com/axisbits-axisbits-default/api/covid-19-statistics/) dengan struktur REST API. Dibuat menggunakan SwiftUI, MVVM Design Pattern, dan REST APIs dari rapidapi.com. Aplikasi ini memiliki fitur Storing Cache Locally, Search, Custom Alert, Responsive Layout Display, Number Formatting, dan Dark Mode Integration.
+
+## Preview
+<p align="center">
+    <a href="#" target="_blank"><img src="1.png" width="200"></a>
+    <a href="#" target="_blank"><img src="2.png" width="200"></a>
+    <a href="#" target="_blank"><img src="3.png" width="200"></a>
+</p>
 
 <!-- ABOUT THE FILE & FOLDER STRUCTURE -->
 ## Folder & File Structure
